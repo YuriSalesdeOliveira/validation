@@ -1,0 +1,21 @@
+{
+    "name": "yuri-oliveira/validation",
+    "description": "Package para fazer validação",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuri Sales de Oliveira",
+            "email": "yuri_oli@hotmail.com",
+            "homepage": "https://www.facebook.com/profile.php?id=100052262689312"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "YuriOliveira\\Validation\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    }
+}
