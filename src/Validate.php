@@ -2,12 +2,9 @@
 
 namespace YuriOliveira\Validation;
 
-class Validate extends ValidateModel
+class Validate extends AbstractValidate
 {
-    public function validate(array $rules): static
-    {
-        return parent::validate($rules);
-    }
+    use ValidateConditionTrait, ValidateModelTrait;
 
     protected function max($key, $value, int $max): bool|string
     {

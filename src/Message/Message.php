@@ -71,10 +71,10 @@ class Message implements MessageInterface
 
         return $attribute;
     }
-
+    
     protected function validateType(string $type): bool
     {
-        if (!in_array($type, $this->types))
+        if (!in_array($type, $this->allowed_types))
         {
             throw new Exception('Tipos permitidos ' . implode(',', $this->types));
         }

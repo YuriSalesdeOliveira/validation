@@ -2,12 +2,8 @@
 
 namespace YuriOliveira\Validation;
 
-class ValidateModel extends ValidateConditions
+trait ValidateModelTrait
 {
-    protected array $config = [
-        'model_namespace' => 'Source\Model\\'
-    ];
-
     protected function unique($key, $value, $model): bool|string
     {
         $model = $this->config['model_namespace'] . ucfirst($model);

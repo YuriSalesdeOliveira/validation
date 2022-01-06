@@ -25,11 +25,11 @@ abstract class AbstractValidate
     {
         $this->rules = $this->rules($rules);
 
-        foreach ($this->rules as $key => $rules)
+        foreach (array_keys($this->rules) as $key)
         {
             if (array_key_exists($key, $this->data))
             {
-                $this->execute($key, $this->data[$key], $rules);
+                $this->execute($key, $this->data[$key]);
 
             } elseif (array_key_exists('required', $rules))
             {
@@ -48,15 +48,15 @@ abstract class AbstractValidate
         }
     }
 
-    protected function execute(string $key, string $value, array $rules)
+    protected function execute(string $key, string $value)
     {
-        foreach ($rules as $method => $parameter)
-        {
+        foreach ($this->rules[$key] as $method => $parameter)
+        {   
+            if (!isset($this->rules[$key])) { break; }
+
             $return = $this->$method($key, $value, $parameter);
-
-            if ($return === true) continue;
-
-            $this->errors[$key] = $return;
+            
+            if (is_string($return)) { $this->errors[$key] = $return; }
         }
     }
 
@@ -94,5 +94,10 @@ abstract class AbstractValidate
         $parameter = $rule[1] ?? null; 
 
         return [$method, $parameter];
+    }
+
+    public function errors(string $key = null)
+    {
+        return $key ? $this->errors[$key] : $this->errors;
     }
 }
