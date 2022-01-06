@@ -14,16 +14,19 @@ class Message implements MessageInterface
         'array'
     ];
 
-    public function __construct(string $messages_file = null)
+    public function __construct()
     {
-        $this->getMessages($messages_file);
+        $this->getMessages();
     }
 
-    protected function getMessages(?string $messages_file)
+    protected function getMessages()
     {
-        $messages_file = $messages_file ?? dirname(__DIR__, 2) . '/resources/language/pt-br/validation.php';
-
-        $this->messages = require_once($messages_file);
+        if (!defined('MESSAGES_FILE_PATH'))
+        {
+            define('MESSAGES_FILE_PATH', dirname(__DIR__, 2) . '/resources/language/pt-br/validation.php');
+        }
+        
+        $this->messages = require_once(MESSAGES_FILE_PATH);
     }
 
     public function get(string|array $key, string $attribute, string $parameter = null): string
