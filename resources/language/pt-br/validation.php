@@ -15,6 +15,10 @@ return [
         'string' => 'O campo :attribute deve conter no mínimo :min caracteres.',
         'file' => 'O campo :attribute deve ter o tamanho mínimo de :max.'
     ],
+    'specific' => [
+        'string' => 'O campo :attribute deve conter :specific caracteres.',
+        'file' => 'O campo :attribute deve ter o tamanho de :specific.'
+    ],
 
     /*
     |--------------------------------------------------------------------------

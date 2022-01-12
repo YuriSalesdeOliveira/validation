@@ -46,4 +46,14 @@ class Validate extends AbstractValidate
 
         return true;
     }
+    
+    protected function specific($key, $value, int $specific): bool|string
+    {
+        if (strlen($value) !== $specific)
+        {
+            return $this->message->get(['specific' => 'string'], attribute: $key);
+        }
+
+        return true;
+    }
 }
