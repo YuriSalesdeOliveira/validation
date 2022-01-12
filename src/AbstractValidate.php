@@ -2,13 +2,8 @@
 
 namespace YuriOliveira\Validation;
 
-use YuriOliveira\Validation\Message\Message;
-use YuriOliveira\Validation\Message\MessageInterface;
-
 abstract class AbstractValidate
 {
-    protected MessageInterface $message;
-
     protected array $data;
     protected array $rules;
     protected array $errors = [];
@@ -17,8 +12,6 @@ abstract class AbstractValidate
     public function __construct(array $data)
     {
         $this->data = $data;
-
-        $this->message = new Message();
     }
 
     public function validate(array $rules): static

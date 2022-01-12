@@ -2,15 +2,32 @@
 
 namespace YuriOliveira\Validation;
 
-class Validate extends AbstractValidate
+use YuriOliveira\Validation\Message\Message;
+
+class Validate extends ValidateCondition
 {
-    use ValidateConditionTrait, ValidateModelTrait;
+    use ValidateModelTrait;
+
+    protected static Array $customValidations;
+
+    public static function extend(string $name, callable $closure)
+    {
+        self::$customValidations[$name] = $closure;
+    }
+
+    public function __call($name, $arguments)
+    {
+        if (!empty(self::$customValidations[$name]) && $closure = self::$customValidations[$name])
+        {
+            return $closure(...$arguments);
+        }
+    }
 
     protected function max($key, $value, int $max): bool|string
     {
         if (strlen($value) > $max)
         {
-            return $this->message->get(['max' => 'string'], attribute: $key, parameter: $max);
+            return Message::get(['max' => 'string'], attribute: $key, parameter: $max);
         }
 
         return true;
@@ -20,7 +37,7 @@ class Validate extends AbstractValidate
     {
         if (strlen($value) < $min)
         {
-            return $this->message->get(['min' => 'string'], attribute: $key, parameter: $min);
+            return Message::get(['min' => 'string'], attribute: $key, parameter: $min);
         }
 
         return true;
@@ -31,7 +48,7 @@ class Validate extends AbstractValidate
     {
         if (empty($value))
         {
-            return $this->message->get('required', attribute: $key);
+            return Message::get('required', attribute: $key);
         }
 
         return true;
@@ -41,7 +58,7 @@ class Validate extends AbstractValidate
     {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL))
         {
-            return $this->message->get('email', attribute: $key);
+            return Message::get('email', attribute: $key);
         }
 
         return true;
@@ -51,7 +68,7 @@ class Validate extends AbstractValidate
     {
         if (strlen($value) !== $specific)
         {
-            return $this->message->get(['specific' => 'string'], attribute: $key);
+            return Message::get(['specific' => 'string'], attribute: $key);
         }
 
         return true;

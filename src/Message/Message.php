@@ -26,26 +26,28 @@ class Message implements MessageInterface
             define('MESSAGES_FILE_PATH', dirname(__DIR__, 2) . '/resources/language/pt-br/validation.php');
         }
         
-        $this->messages = require_once(MESSAGES_FILE_PATH);
+        $this->messages = require(MESSAGES_FILE_PATH);
     }
 
-    public function get(string|array $key, string $attribute, string $parameter = null): string
+    public static function get(string|array $key, string $attribute, string $parameter = null): string
     {
+        $instance = new static;
+
         if (is_array($key))
         {
             foreach ($key as $key => $type)
             {
-                $this->validateType($type);
+                $instance->validateType($type);
 
-                $message = $this->messages[$key][$type];
+                $message = $instance->messages[$key][$type];
 
-                return $this->formatMessage($message, $attribute, [$key => $parameter]);
+                return $instance->formatMessage($message, $attribute, [$key => $parameter]);
             }
         }
 
-        $message = $this->messages[$key];
+        $message = $instance->messages[$key];
 
-        return $this->formatMessage($message, $attribute);
+        return $instance->formatMessage($message, $attribute);
     }
 
     protected function formatMessage(string $message, string $attribute, array $parameter = []): string
