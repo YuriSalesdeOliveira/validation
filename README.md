@@ -47,6 +47,18 @@ print_r($validate->errors());
 
 ```
 
+### Condições para validar
+
+```php
+
+// Tudo oque vier depois da condition só será validado se a condição for atendida
+$validate->validate([
+    'email' => ['condition:filled', 'email']
+    'email' => ['condition:empty', 'required']
+]);
+
+```
+
 ### Validações personalizadas
 
 Todas as validações personalizadas devem ser definidas antes da instanciação da classe.
@@ -67,6 +79,12 @@ Validate::extend('string', function($key, $value) {
 
 });
 
+// Usando a validação personalizada
+
+$validate->validate([
+    'name' => ['string'],
+]);
+
 ```
 
 ### Mensagens
@@ -77,9 +95,9 @@ Message::get('required', attribute: $key);
 // Mensagem: 'required' => 'O campo :attribute é obrigatório.'
 // Resultado: O campo $key é obrigatório.
 
-// Em alguns casos deve-se informa a chave principal da mensagem
-// e o tipo do dado. Algumas mensagens possuem um segundo parâmetro
-// que sempre terá o mesmo nome da chave principal da mensagem
+// Em alguns casos deve-se informa a chave principal da mensagem e o tipo do dado.
+// Algumas mensagens possuem um segundo parâmetro que sempre terá o mesmo nome da
+// chave principal da mensagem.
 
 Message::get(['max' => 'string'], attribute: $key, parameter: $max);
 
@@ -101,9 +119,8 @@ O componente possui um arquivo com as mensagens. Se você quiser criar suas pró
 // Mensagens simples
 'exists' => 'O :attribute não existe.',
 
-// Mensagens diferentes para cada tipo de dado
-// Algumas mensagens precisam de um segundo parâmetro,
-// esse parâmetro deve ter o mesmo nome da chave principal
+// Mensagens diferentes para cada tipo de dado Algumas mensagens precisam
+// de um segundo parâmetro, esse parâmetro deve ter o mesmo nome da chave principal
 'max' => [
     'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
     'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
