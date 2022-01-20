@@ -91,51 +91,59 @@ $validate->validate([
 
 ```php
 
+// Exemplo do arquivo de mensagens.
+
+'required' => 'O campo :attribute é obrigatório.',
+'email' => 'O campo :attribute deve conter um email válido.',
+'unique' => 'O :attribute já foi usado.',
+'max' => [
+    'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
+    'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
+],
+
+```
+
+```php
+
+// Mensagens simples.
 Message::get('required', attribute: $key);
-// Mensagem: 'required' => 'O campo :attribute é obrigatório.'
-// Resultado: O campo $key é obrigatório.
 
-// Em alguns casos deve-se informa a chave principal da mensagem e o tipo do dado.
-// Algumas mensagens possuem um segundo parâmetro que sempre terá o mesmo nome da
-// chave principal da mensagem.
-
-Message::get(['max' => 'string'], attribute: $key, parameter: $max);
-
-// 'max' => [
-//     'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
-//     'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
-// ],
-
+// Mensagens que possuem tipos e um parâmetro.
 // resultado: O campo $key deve conter no máximo $max caracteres.
+Message::get(['max' => 'string'], attribute: $key, parameter: $max);
 
 ```
 
 ### Mensagens personalizadas
 
-O componente possui um arquivo com as mensagens. Se você quiser criar suas próprias mensagens, copie o arquivo já existente e use os padrões do mesmo como exemplo. Use a constante MESSAGES_FILE_PATH para informar o novo caminho do seu arquivo personalizado (O caminho deve ser absoluto).
+O componente possui um arquivo com as mensagens em "resources/language/pt-br/validation.php". Se você quiser criar suas próprias mensagens, não edite o arquivo existente, copie o arquivo e use os padrões do mesmo como exemplo. Use a constante MESSAGES_FILE_PATH para informar o novo caminho do seu arquivo personalizado (o caminho deve ser absoluto).
 
 ```php
 
 // Mensagens simples
 'exists' => 'O :attribute não existe.',
 
-// Mensagens diferentes para cada tipo de dado Algumas mensagens precisam
-// de um segundo parâmetro, esse parâmetro deve ter o mesmo nome da chave principal
+// Mensagens que possuem tipos e um parâmetro.
+// O parâmetro deve ter o mesmo nome da chave principal
 'max' => [
     'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
     'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
 ],
 
-// Você também pode mudar o nome de um atributo de sua escolha.
-// Essa funcionalidade geralmente é usada para tradução.
+```
 
-// ['procurar' => 'substituir_por']
+Você também pode personalizar os atributos dinâmicamente.
 
-// 'attributes' => [
-//     'name' => 'nome',
-//     'email' => 'e-mail',
-//     'password' => 'senha'
-// ],
+```php
+
+// Informe primeiro o valor atual do atributo e depois o valor
+// que irá substiruir o valor original.
+
+'attributes' => [
+    'name' => 'nome',
+    'email' => 'e-mail',
+    'password' => 'senha'
+],
 
 ```
 
