@@ -89,7 +89,7 @@ $validate->validate([
 
 ### Mensagens
 
-#### Exemplo do arquivo de mensagens.
+#### Exemplo do arquivo de mensagens
 
 ```php
 
@@ -103,7 +103,7 @@ $validate->validate([
 
 ```
 
-#### Pegando as mensagens.
+#### Pegando as mensagens
 
 ```php
 
