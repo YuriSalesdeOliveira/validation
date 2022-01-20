@@ -118,7 +118,7 @@ Message::get(['max' => 'string'], attribute: $key, parameter: $max);
 
 ### Mensagens personalizadas
 
-O componente possui um arquivo com as mensagens em "resources/language/pt-br/validation.php". Se você quiser criar suas próprias mensagens, não edite o arquivo existente, copie o arquivo e use os padrões do mesmo como exemplo. Use a constante MESSAGES_FILE_PATH para informar o novo caminho do seu arquivo personalizado (o caminho deve ser absoluto).
+O componente possui um arquivo com as mensagens em "resources/language/pt-br/validation.php". Se você quiser criar suas próprias mensagens, não edite o arquivo existente, copie o arquivo e use os padrões do mesmo como exemplo. Use a constante MESSAGES_FILE_PATH para informar o novo caminho do seu arquivo personalizado.
 
 ```php
 
