@@ -89,9 +89,9 @@ $validate->validate([
 
 ### Mensagens
 
-```php
+Exemplo do arquivo de mensagens.
 
-// Exemplo do arquivo de mensagens.
+```php
 
 'required' => 'O campo :attribute é obrigatório.',
 'email' => 'O campo :attribute deve conter um email válido.',
@@ -102,6 +102,8 @@ $validate->validate([
 ],
 
 ```
+
+Pegando as mensagens.
 
 ```php
 
