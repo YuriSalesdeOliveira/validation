@@ -2,6 +2,8 @@
 
 namespace YuriOliveira\Validation;
 
+use YuriOliveira\Validation\Message\Message;
+
 abstract class AbstractValidate
 {
     protected array $data;
@@ -18,15 +20,15 @@ abstract class AbstractValidate
     {
         $this->rules = $this->rules($rules);
 
-        foreach (array_keys($this->rules) as $key)
+        foreach ($this->rules as $key => $rules)
         {
             if (array_key_exists($key, $this->data))
             {
-                $this->execute($key, $this->data[$key]);
+                $this->execute($key, $rules, $this->data[$key]);
 
             } elseif (array_key_exists('required', $rules))
             {
-                $this->errors[$key] = $this->message->get('required', attribute: $key);
+                $this->errors[$key] = Message::get('required', attribute: $key);
             }
         }
 
@@ -41,14 +43,13 @@ abstract class AbstractValidate
         }
     }
 
-    protected function execute(string $key, string $value)
+    protected function execute(string $key, array $rules, string $value)
     {
-        foreach ($this->rules[$key] as $method => $parameter)
+        foreach ($rules as $method => $parameter)
         {   
-            if (!isset($this->rules[$key])) { break; }
-
             $return = $this->$method($key, $value, $parameter);
             
+            if ($return === false) { break; }
             if (is_string($return)) { $this->errors[$key] = $return; }
         }
     }
@@ -68,7 +69,7 @@ abstract class AbstractValidate
     protected function standardizeRules(array $rules)
     {
         $standardized_rules = [];
-
+        
         foreach ($rules as $rule) {
 
             [$method, $parameter] = $this->rule($rule);

@@ -10,30 +10,18 @@ class ValidateCondition extends AbstractValidate
 
         if (method_exists($this, $method))
         {
-            $this->$method($key, $value);
+            return $this->$method($key, $value);
         }
     }
 
     protected function filledCondition($key, $value): bool
     {
-        if (empty($value))
-        {
-            unset($this->rules[$key]);
-            
-            return false;
-        }
-
-        return true;
+        return empty($value) ? false : true;
     }
 
     protected function emptyCondition($key, $value): bool
     {
-        if (!empty($value))
-        {
-            unset($this->rules[$key]);
-            
-            return false;
-        }
+        if (!empty($value)) { return false; }
 
         return true;
     }

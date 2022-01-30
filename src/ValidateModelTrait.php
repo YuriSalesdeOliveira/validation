@@ -2,6 +2,8 @@
 
 namespace YuriOliveira\Validation;
 
+use YuriOliveira\Validation\Message\Message;
+
 trait ValidateModelTrait
 {
     protected function unique($key, $value, $model): bool|string
@@ -12,7 +14,7 @@ trait ValidateModelTrait
         {
             $result = $model::find([$key => $value])->first();
 
-            if ($result) return $this->message->get('unique', attribute: $key);
+            if ($result) return Message::get('unique', attribute: $key);
             
         }
 
@@ -27,7 +29,7 @@ trait ValidateModelTrait
             
             $result = $model::find([$key => $value])->first();
 
-            if (!$result) return $this->message->get('exists', attribute: $key);
+            if (!$result) return Message::get('exists', attribute: $key);
             
         }
 
