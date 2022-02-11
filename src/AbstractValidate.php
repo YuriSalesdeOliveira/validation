@@ -43,7 +43,7 @@ abstract class AbstractValidate
         }
     }
 
-    protected function execute(string $key, array $rules, string $value)
+    protected function execute(string $key, array $rules, mixed $value)
     {
         foreach ($rules as $method => $parameter)
         {   
