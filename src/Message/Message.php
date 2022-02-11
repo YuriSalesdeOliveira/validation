@@ -4,7 +4,7 @@ namespace YuriOliveira\Validation\Message;
 
 use Exception;
 
-class Message implements MessageInterface
+class Message
 {
     protected array $messages;
     protected array $allowed_types = [

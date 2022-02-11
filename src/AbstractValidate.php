@@ -45,13 +45,25 @@ abstract class AbstractValidate
 
     protected function execute(string $key, array $rules, mixed $value)
     {
-        foreach ($rules as $method => $parameter)
-        {   
-            $return = $this->$method($key, $value, $parameter);
+        foreach ($rules as $class => $parameter)
+        {
+            $class = $this->namespace($class);
+
+            $return = $class::parse($key, $value, $parameter);
             
             if ($return === false) { break; }
             if (is_string($return)) { $this->errors[$key] = $return; }
         }
+    }
+
+    protected function namespace(string $class)
+    {
+        if ($class === 'condition')
+        {
+            return 'YuriOliveira\Validation\\' . ucfirst($class);
+        }
+
+        return 'YuriOliveira\Validation\Validations\\' . ucfirst($class);
     }
 
     protected function rules(array $rules): array
@@ -72,9 +84,9 @@ abstract class AbstractValidate
         
         foreach ($rules as $rule) {
 
-            [$method, $parameter] = $this->rule($rule);
+            [$class, $parameter] = $this->rule($rule);
 
-            $standardized_rules[$method] = $parameter;
+            $standardized_rules[$class] = $parameter;
         }
 
         return $standardized_rules;
@@ -84,10 +96,10 @@ abstract class AbstractValidate
     {
         $rule = explode(':', $rule);
 
-        $method = $rule[0];
+        $class = $rule[0];
         $parameter = $rule[1] ?? null; 
 
-        return [$method, $parameter];
+        return [$class, $parameter];
     }
 
     public function errors(string $key = null)
