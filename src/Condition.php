@@ -24,7 +24,7 @@ class Condition
     protected static function empty($key, $value): bool
     {
         if (!empty($value)) { return false; }
-
+        
         return true;
     }
 

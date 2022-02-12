@@ -61,17 +61,16 @@ class Validate
     {
         foreach ($rules as $handler => $parameter)
         {
-            $handler = $this->namespace($handler);
+            $namespace_handler = $this->namespace($handler);
 
-            if (class_exists($handler))
+            if (class_exists($namespace_handler))
             {
-                $return = $handler::parse($key, $value, $parameter);
+                $return = $namespace_handler::parse($key, $value, $parameter);
 
             } else
             {
                 $return = $this->$handler($key, $value, $parameter);
             }
-
 
             if ($return === false) { break; }
             if (is_string($return)) { $this->errors[$key] = $return; }
@@ -80,10 +79,7 @@ class Validate
 
     protected function namespace(string $handler)
     {
-        if ($handler === 'condition')
-        {
-            return 'YuriOliveira\Validation\\' . ucfirst($handler);
-        }
+        if ($handler === 'condition') { return 'YuriOliveira\Validation\\' . ucfirst($handler); }
 
         return 'YuriOliveira\Validation\Validations\\' . ucfirst($handler);
     }
