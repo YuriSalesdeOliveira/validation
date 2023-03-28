@@ -1,6 +1,6 @@
 {
     "name": "yuri-oliveira/validate",
-    "description": "Package para fazer validação",
+    "description": "Pacote para fazer validação",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
@@ -12,10 +12,10 @@
     ],
     "autoload": {
         "psr-4": {
-            "YuriOliveira\\Validation\\": "src"
+            "YuriOliveira\\Validate\\": "source"
         }
     },
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.2"
     }
 }

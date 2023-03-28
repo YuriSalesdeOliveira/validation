@@ -16,8 +16,7 @@ composer require yuri-oliveira/validate
 
 <?php
 
-use YuriOliveira\Validation\Message\Message;
-use YuriOliveira\Validation\Validate;
+use YuriOliveira\Validate\Validate;
 
 require_once(__DIR__ . '/vendor/autoload.php');
 

@@ -2,6 +2,12 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Validation Language Lines
+    |--------------------------------------------------------------------------
+    */
+
     'required' => 'O campo :attribute é obrigatório.',
     'email' => 'O campo :attribute deve conter um email válido.',
     'unique' => 'O :attribute já foi usado.',
@@ -9,6 +15,7 @@ return [
 
     'max' => [
         'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
+        'numeric' => 'O campo :attribute não deve ser maior que :max.',
         'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
     ],
     'min' => [

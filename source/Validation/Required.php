@@ -1,15 +1,15 @@
 <?php
 
-namespace YuriOliveira\Validation\Validations;
+namespace YuriOliveira\Validate\Validation;
 
-use YuriOliveira\Validation\Message\Message;
+use YuriOliveira\Validate\Message\Message;
 
-class Required extends AbstractValidation
+class Required extends ValidationAbstract
 {
     protected static function string(string $key, string $value)
     {
-        if (empty($value))
-        {
+        if (empty($value)) {
+
             return Message::get('required', attribute: $key);
         }
 
@@ -18,8 +18,8 @@ class Required extends AbstractValidation
 
     protected static function file(string $key, array $value)
     {
-        if ($value['size'] === 0)
-        {
+        if ($value['size'] === 0) {
+            
             return Message::get('required', attribute: $key);
         }
 
