@@ -1,6 +1,6 @@
 # Validate
 
-Esse projeto é um componente PHP para fazer a valição
+Esse projeto é um componente PHP para fazer a valição.
 
 ## Instalação
 
@@ -23,7 +23,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $data = [
     'name' => 'Anthony Edward Stark Jr',
     'email' => 'TonyEsterco@hotmail.com',
-    'password' => 'PepperPotts',
+    'password' => '',
 ];
 
 $validate = new Validate($data);
@@ -37,119 +37,110 @@ $validate->validate([
 
 print_r($validate->errors());
 
-// Possivel retorno de erros resultantes da validação
+// Retorno de erros
 // [
-//     'name' => 'O campo name é obrigatório.',
-//     'email' => 'O campo email deve conter um email válido.',
 //     'password' => 'O campo password deve conter no mínimo 8 caracteres.'
-// ]
+// ];
 
 ```
 
 ### Condições para validar
 
-```php
+Tudo o que vier depois da condição só será validado se a condição for atendida.
 
-// Tudo oque vier depois da condition só será validado se a condição for atendida
+```php
 $validate->validate([
     'email' => ['condition:filled', 'email']
-    'email' => ['condition:empty', 'required']
+    'password' => ['condition:empty', 'required']
 ]);
+
+```
+
+Criando condições personalizadas.
+
+Obs: A condição deve sempre retornar um boolean. Se retornar true significar que as validações devem continuar, caso retorne false as validações serão interrompidas.
+
+```php
+<?php
+
+use YuriOliveira\Validate\Condition;
+
+require_once(__DIR__ . '/vendor/autoload.php');
+
+Condition::extend(name: 'custom', closure: function($value, $key) {
+    return is_string($value) ? true : false;
+});
+
+```
+
+#### Mensagens de erro
+
+O arquivo contendo as mensagens é um array associativo onde a chave é o erro e o valor é a mensagem. Alguns erros irão precisar de filtros para tipos de dados (string, numeric, file e array). Abaixo contém uma parte do arquivo de mensagens de erro.
+
+```php
+return [
+    'required' => 'O campo :attribute é obrigatório.',
+    'email' => 'O campo :attribute deve conter um email válido.',
+    'max' => [
+        'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
+        'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
+    ]
+];
+
+```
+Também podemos inserir mais mensagens de erro personalizadas utilizando o método "extend" da class "Message".
+
+```php
+<?php
+
+use YuriOliveira\Validate\Message\Message;
+
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$customMessages = [
+    'custom' => 'O campo :attribute é customizado'
+];
+
+Message::extend($customMessages);
+
+```
+
+Para obter as mensagens utilizamos o método "get".
+
+Mensagens simples:
+
+```php
+
+Message::get('required', attribute: 'email');
+// resultado: O campo email é obrigatório.
+```
+
+Mensagens que possuem tipos e um parâmetro:
+```php
+Message::get('max.string', attribute: 'password', parameter: 25);
+// resultado: O campo password deve conter no máximo 25 caracteres.
 
 ```
 
 ### Validações personalizadas
 
-Todas as validações personalizadas devem ser definidas antes da instanciação da classe.
+Em caso de erro a validação deve rotornar uma mensagem (podemos obter pela classe Message e utilizar a mensagem criada no exemplo anterior) em caso de aprovação deve retornar "true".
 
 ```php
 
-Validate::extend('string', function($key, $value) {
+Validate::extend(name: 'custom', closure: function($key, $value) {
 
-    if (!is_string($value))
-    {
-        return Message::get('string', $key);
+    if (!is_string($value)) {
+
+        return Message::get('custom', attribute: $key);
     }
 
-    // A validação deve rotornar uma mensagem em caso de erro
-    // ou true em caso de aprovação
-
     return true;
-
 });
 
-// Usando a validação personalizada
-
-$validate->validate([
-    'name' => ['string'],
-]);
-
 ```
-
-### Mensagens
-
-#### Exemplo do arquivo de mensagens
-
-```php
-
-'required' => 'O campo :attribute é obrigatório.',
-'email' => 'O campo :attribute deve conter um email válido.',
-'unique' => 'O :attribute já foi usado.',
-'max' => [
-    'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
-    'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
-],
-
-```
-
-#### Pegando as mensagens
-
-```php
-
-// Mensagens simples.
-Message::get('required', attribute: $key);
-
-// Mensagens que possuem tipos e um parâmetro.
-// resultado: O campo $key deve conter no máximo $max caracteres.
-Message::get(['max' => 'string'], attribute: $key, parameter: $max);
-
-```
-
-### Mensagens personalizadas
-
-O componente possui um arquivo com as mensagens em "resources/language/pt-br/validation.php". Se você quiser criar suas próprias mensagens, não edite o arquivo existente, copie o arquivo e use os padrões do mesmo como exemplo. Use a constante MESSAGES_FILE_PATH para informar o novo caminho do seu arquivo personalizado.
-
-```php
-
-// Mensagens simples
-'exists' => 'O :attribute não existe.',
-
-// Mensagens que possuem tipos e um parâmetro.
-// O parâmetro deve ter o mesmo nome da chave principal
-'max' => [
-    'string' => 'O campo :attribute deve conter no máximo :max caracteres.',
-    'file' => 'O arquivo :attribute deve ter o tamanho máximo de :max.'
-],
-
-```
-
-Você também pode personalizar os atributos dinâmicamente.
-
-```php
-
-// Informe primeiro o valor atual do atributo e depois o valor
-// que irá substiruir o valor original.
-
-'attributes' => [
-    'name' => 'nome',
-    'email' => 'e-mail',
-    'password' => 'senha'
-],
-
-```
-
 
 ### Requisitos
 
-- PHP 8.0 ou superior
+- PHP 8.2 ou superior
 
