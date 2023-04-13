@@ -26,7 +26,7 @@ $data = [
     'password' => '',
 ];
 
-$validate = new Validate($data);
+$validate = Validate::create($data);
 
 $validate->validate([
     'name' => ['max:250', 'required'],
@@ -67,7 +67,7 @@ use YuriOliveira\Validate\Condition;
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
-Condition::extend(name: 'custom', closure: function($value, $key) {
+Condition::extend('custom', function($value, $key) {
     return is_string($value) ? true : false;
 });
 
@@ -111,13 +111,13 @@ Mensagens simples:
 
 ```php
 
-Message::get('required', attribute: 'email');
+Message::get('required', 'email');
 // resultado: O campo email é obrigatório.
 ```
 
 Mensagens que possuem tipos e um parâmetro:
 ```php
-Message::get('max.string', attribute: 'password', parameter: 25);
+Message::get('max.string', 'password', parameter: 25);
 // resultado: O campo password deve conter no máximo 25 caracteres.
 
 ```
@@ -128,11 +128,11 @@ Em caso de erro a validação deve rotornar uma mensagem (podemos obter pela cla
 
 ```php
 
-Validate::extend(name: 'custom', closure: function($key, $value) {
+Validate::extend('custom', function($key, $value) {
 
     if (!is_string($value)) {
 
-        return Message::get('custom', attribute: $key);
+        return Message::get('custom', $key);
     }
 
     return true;
@@ -142,5 +142,5 @@ Validate::extend(name: 'custom', closure: function($key, $value) {
 
 ### Requisitos
 
-- PHP 8.2 ou superior
+- PHP 7.4 ou superior
 

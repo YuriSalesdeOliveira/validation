@@ -10,7 +10,7 @@ class Max extends ValidationAbstract
     {
         if (strlen($value) > $max) {
 
-            return Message::get('max.string', attribute: $key, parameter: $max);
+            return Message::get('max.string', $key, $max);
         }
 
         return true;
@@ -20,7 +20,7 @@ class Max extends ValidationAbstract
     {
         if ($value['size'] > $max) {
 
-            return Message::get('max.file', attribute: $key, parameter: $max);
+            return Message::get('max.file', $key, $max);
         }
 
         return true;

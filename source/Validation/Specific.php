@@ -10,7 +10,7 @@ class Specific extends ValidationAbstract
     {
         if (strlen($value) !== $specific) {
 
-            return Message::get('specific.string', attribute: $key, parameter: $specific);
+            return Message::get('specific.string', $key, $specific);
         }
 
         return true;
@@ -20,7 +20,7 @@ class Specific extends ValidationAbstract
     {
         if ($value['size'] !== $specific) {
 
-            return Message::get('specific.file', attribute: $key, parameter: $specific);
+            return Message::get('specific.file', $key, $specific);
         }
 
         return true;

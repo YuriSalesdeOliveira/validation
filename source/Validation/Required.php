@@ -10,7 +10,7 @@ class Required extends ValidationAbstract
     {
         if (empty($value)) {
 
-            return Message::get('required', attribute: $key);
+            return Message::get('required', $key);
         }
 
         return true;
@@ -20,7 +20,7 @@ class Required extends ValidationAbstract
     {
         if ($value['size'] === 0) {
             
-            return Message::get('required', attribute: $key);
+            return Message::get('required', $key);
         }
 
         return true;

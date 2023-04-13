@@ -35,6 +35,13 @@ class Validate
         $this->data = $data;
     }
 
+    public static function create(array $data): self
+    {
+        $instance = new self($data);
+
+        return $instance;
+    }
+
     public function validate(array $rules): self
     {
         $this->rules = $this->rules($rules);
@@ -47,7 +54,7 @@ class Validate
 
             } elseif (array_key_exists('required', $rules)) {
 
-                $this->errors[$key] = Message::get('required', attribute: $key);
+                $this->errors[$key] = Message::get('required', $key);
             }
         }
 
@@ -62,7 +69,7 @@ class Validate
         }
     }
 
-    protected function execute(string $key, array $rules, mixed $value)
+    protected function execute(string $key, array $rules, $value)
     {
         foreach ($rules as $handler => $parameter) {
 
@@ -124,7 +131,13 @@ class Validate
         return $standardized_rules;
     }
 
-    public function errors(string $key = null): string|array
+    /**
+     * errors
+     *
+     * @param string|null $key
+     * @return string|array
+     */
+    public function errors($key = null)
     {
         return $key ? $this->errors[$key] : $this->errors;
     }

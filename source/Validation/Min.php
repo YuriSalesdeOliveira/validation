@@ -10,7 +10,7 @@ class Min extends ValidationAbstract
     {
         if (strlen($value) < $min) {
 
-            return Message::get('min.string', attribute: $key, parameter: $min);
+            return Message::get('min.string', $key, $min);
         }
 
         return true;
@@ -20,7 +20,7 @@ class Min extends ValidationAbstract
     {
         if ($value['size'] < $min) {
 
-            return Message::get('min.file', attribute: $key, parameter: $min);
+            return Message::get('min.file', $key, $min);
         }
 
         return true;

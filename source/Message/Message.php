@@ -18,7 +18,7 @@ class Message
 
     public static function extend(array $messages)
     {
-        self::$customMessages = $messages;
+        self::$customMessages = array_merge(self::$customMessages, $messages);
     }
 
     public function __construct()
@@ -32,7 +32,7 @@ class Message
     {
         $instance = new static;
 
-        if (str_contains($key, '.')) {
+        if (strpos($key, '.') !== false) {
         
             [$key, $type] = explode('.', $key);
 

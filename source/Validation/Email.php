@@ -10,7 +10,7 @@ class Email extends ValidationAbstract
     {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
 
-            return Message::get('email', attribute: $key);
+            return Message::get('email', $key);
         }
 
         return true;

@@ -4,18 +4,36 @@ namespace YuriOliveira\Validate\Validation;
 
 abstract class ValidationAbstract
 {
-    public static function execute(string $key, mixed $value, null|string $parameter = null): bool|string
+    /**
+     * execute
+     *
+     * @param string $key
+     * @param $value
+     * @param null|string $parameter
+     * @return boolean|string
+     */
+    public static function execute($key, $value, $parameter = null)
     {
         $method = static::valueType($value);
 
         return static::$method($key, $value, $parameter);
     }
 
-    protected static function valueType(mixed $value): string
+    /**
+     * valueType
+     *
+     * @param $value
+     * @return string
+     */
+    protected static function valueType($value): string
     {
-        if (is_numeric($value)) { return 'numeric'; }
+        if (is_numeric($value)) {
+            return 'numeric';
+        }
 
-        if (is_string($value)) { return 'string'; }
+        if (is_string($value)) {
+            return 'string';
+        }
 
         if (is_array($value)) {
 
