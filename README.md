@@ -117,7 +117,7 @@ Message::get('required', 'email');
 
 Mensagens que possuem tipos e um parâmetro:
 ```php
-Message::get('max.string', 'password', parameter: 25);
+Message::get('max.string', 'password', 25);
 // resultado: O campo password deve conter no máximo 25 caracteres.
 
 ```
